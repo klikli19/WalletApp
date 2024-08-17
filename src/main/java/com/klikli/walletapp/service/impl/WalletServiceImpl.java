@@ -33,7 +33,7 @@ public class WalletServiceImpl implements WalletService {
             if (wallet.getBalance() >= amount) {
                 wallet.setBalance((long) (wallet.getBalance() - amount));
             } else {
-                throw new IllegalArgumentException("Insufficient funds");
+                throw new IllegalArgumentException("Недостаточно средств");
             }
         }
         return walletRepository.save(wallet);
@@ -41,7 +41,7 @@ public class WalletServiceImpl implements WalletService {
 
     @Override
     public Wallet getBalance(UUID walletId) {
-        return walletRepository.findById(walletId).orElseThrow(() -> new IllegalArgumentException("Wallet not found"));
+        return walletRepository.findById(walletId).orElseThrow(() -> new IllegalArgumentException("Кошелек не найден"));
     }
 }
 
