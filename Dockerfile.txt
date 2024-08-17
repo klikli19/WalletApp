@@ -1,0 +1,4 @@
+FROM openjdk:17-jdk-slim
+WORKDIR /walletpp
+COPY target/wallet_app-0.0.1-SNAPSHOT.jar app.jar
+ENTRYPOINT ["java", "-jar", "app.jar"]
