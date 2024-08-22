@@ -1,6 +1,7 @@
 package com.klikli.walletapp.controller;
 
-import com.klikli.walletapp.dto.WalletRequest;
+import com.klikli.walletapp.constant.Operation;
+import com.klikli.walletapp.dto.WalletRequestDto;
 import com.klikli.walletapp.entity.Wallet;
 import com.klikli.walletapp.service.impl.WalletServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +15,8 @@ public class WalletController {
     private WalletServiceImpl service;
 
     @PostMapping
-    public Wallet updateWallet(@RequestBody WalletRequest request) {
-        return service.updateBalance(request.getWalletId(), String.valueOf(request.getOperation()), request.getAmount());
+    public Wallet updateWallet(@RequestBody WalletRequestDto request) {
+        return service.updateBalance(request.getWalletId(), request.getOperation(), request.getAmount());
     }
 
     @GetMapping("/wallets/{walletId}")
