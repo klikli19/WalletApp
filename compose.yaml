@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: my_container
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: WalletApp
+      POSTGRES_USER: WalletApp
+      POSTGRES_PASSWORD: 123456
+
+  app:
+    build: .
+    container_name: wallet_app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/WalletApp
+      SPRING_DATASOURCE_USERNAME: WalletApp
+      SPRING_DATASOURCE_PASSWORD: 123456
