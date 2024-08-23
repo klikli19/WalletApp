@@ -7,7 +7,7 @@ import java.util.Objects;
 import java.util.UUID;
 @Entity
 @Builder
-@Table(name = "wallets")
+@Table(name = "wallet")
 public class Wallet {
     @Id
     @Column(name = "id")
