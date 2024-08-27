@@ -31,32 +31,28 @@ public class WalletServiceImpl implements WalletService {
         return walletRepository.save(wallet);
     }
 
-    public Wallet updateBalance(UUID walletId, Operation operationType, double amount) {
-        lock.lock();
-        try {
-            Optional<Wallet> optionalWallet = walletRepository.findById(walletId);
+    public synchronized Wallet updateBalance(UUID walletId, Operation operationType, double amount) {
+        Optional<Wallet> optionalWallet = walletRepository.findById(walletId);
 
-            if (optionalWallet.isEmpty()) {
-                throw new WalletNotFoundException();
-            }
-
-            Wallet wallet = optionalWallet.get();
-
-            if (operationType == Operation.DEPOSIT) {
-                wallet.setBalance(wallet.getBalance() + (long) amount);
-            } else if (operationType == Operation.WITHDRAW) {
-                if (wallet.getBalance() >= amount) {
-                    wallet.setBalance(wallet.getBalance() - (long) amount);
-                } else {
-                    throw new NotEnoughFundsException();
-                }
-            }
-
-            return walletRepository.save(wallet);
-        } finally {
-            lock.unlock();
+        if (optionalWallet.isEmpty()) {
+            throw new WalletNotFoundException();
         }
+
+        Wallet wallet = optionalWallet.get();
+
+        if (operationType == Operation.DEPOSIT) {
+            wallet.setBalance(wallet.getBalance() + (long) amount);
+        } else if (operationType == Operation.WITHDRAW) {
+            if (wallet.getBalance() >= amount) {
+                wallet.setBalance(wallet.getBalance() - (long) amount);
+            } else {
+                throw new NotEnoughFundsException();
+            }
+        }
+
+        return walletRepository.save(wallet);
     }
+
 
 
     @Override
